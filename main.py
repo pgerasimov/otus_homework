@@ -35,6 +35,5 @@ def main():
 
     get_links(url, 1, max_depth, output_type)
 
-
 if __name__ == "__main__":
     main()
