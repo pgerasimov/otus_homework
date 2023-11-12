@@ -3,15 +3,16 @@ import random
 
 # Класс Barrel представляет бочонок
 class Barrel:
-    def __init__(self):
-        # Инициализация бочонков числами от 1 до 90
-        self.barrels = list(range(1, 91))
 
-    # Метод для извлечения случайного бочонка из списка
+    def __init__(self):
+        # Инициализация бочонков числами
+        self.barrels = list(range(1, 90))
+
+    # Метод получения случайного бочонка
     def draw(self):
-        # Проверка на наличие бочонков в списке
+        # Проверка на наличие бочонков
         if self.barrels:
-            # Извлечение случайного бочонка и удаление его из списка
+            # Получение случайного бочонка и удаление его из списка
             return self.barrels.pop(random.randint(0, len(self.barrels) - 1))
         else:
             # Возвращение None, если список пуст
@@ -20,58 +21,78 @@ class Barrel:
 
 # Класс Card представляет карточку игрока
 class Card:
+    # Параметры карточки
     __rows = 3
     __cols = 9
     __nums_in_row = 5
 
     def __init__(self):
-        # Количество чисел в строке
-        # Инициализация пустых строк для карточки
+        # Создание пустой карточки
         self.rows = []
-        # Создание карточки при инициализации
         for _ in range(self.__rows):
             self.rows.append([])
         self.generate_card()
 
-    # Метод генерации случайной карточки с уникальными числами
+    # Метод генерации карточки
     def generate_card(self):
-        # Определяем количество чисел в карточке
-        total_numbers = len(self.rows) * self.__cols
-
         # Генерация уникальных чисел для всей карточки
-        unique_numbers = set()
-        while len(unique_numbers) < total_numbers:
-            unique_numbers.add(random.randint(1, 91))
+        unique_numbers = set(range(1, 90))
+        random.shuffle(list(unique_numbers))
 
         # Распределение чисел по строкам
         for row in self.rows:
-            # Получение двух уникальных чисел для каждой строки
-            row_numbers = random.sample(unique_numbers, self.__cols)
+            # Генерация уникальных чисел для каждой строки
+            row_numbers = sorted(random.sample(unique_numbers, self.__nums_in_row))
+
             # Удаление выбранных чисел из общего множества уникальных чисел
             unique_numbers -= set(row_numbers)
-            # Сортировка чисел по возрастанию
-            row.extend(sorted(row_numbers))
+
+            # Заполнение строки карточки
+            row_symbols = []
+            for num in row_numbers:
+                row_symbols.append(str(num))
+
+            # Добавление пробелов в случайных местах
+            for _ in range(self.__cols - self.__nums_in_row):
+                row_symbols.insert(random.randint(0, len(row_symbols)), " ")
+
+            # Заполнение строки карточки
+            row.extend(row_symbols)
 
     # Метод отображения карточки
     def display(self):
+        # Вывод разделителя в начале карточки
+        print("-" * 28)
         for row in self.rows:
-            print(row)
+            # Вывод строки карточки
+            print(" ".join(row))
+        # Вывод разделителя в конце карточки
+        print("-" * 28)
 
     # Метод зачеркивания числа на карточке
     def mark_number(self, number):
         for row in self.rows:
             if number in row:
                 # Замена числа на "X" в случае совпадения
-                row[row.index(number)] = "X"
+                index = row.index(number)
+                row[index] = "X"
 
-    # Метод для проверки наличия победителя на карточке
+    # Проверка наличия чисел в строке
+    @staticmethod
+    def has_numbers(row):
+        for cell in row:
+            if cell.strip().isdigit():
+                return True
+        return False
+
+    # Метод для проверки победителя
     def check_for_winner(self):
         for row in self.rows:
             # Проверка, что все числа в строке зачеркнуты
-            if not all(cell == "X" for cell in row):
-                return False
-        # Возвращение True, если все числа во всех строках зачеркнуты
-        return True
+            if not self.has_numbers(row):
+                return True
+        # Возвращение False, если есть не зачеркнутые числа
+        return False
 
 
 # Класс Game представляет процесс игры
@@ -82,7 +103,8 @@ class Game:
         self.player_card = player_card
         self.computer_card = computer_card
 
-    def is_valid_choice(self, choice):
+    @staticmethod
+    def is_valid_choice(choice):
         return choice.lower() in ["y", "n"]
 
     # Метод выполнения хода
@@ -94,6 +116,7 @@ class Game:
         # Вывод карточки игрока
         print("\nВаша карточка:")
         self.player_card.display()
+
         # Пользователь выбирает зачеркнуть или продолжить
         action = input("Зачеркнуть цифру? (y/n): ").lower()
         while not self.is_valid_choice(action):
@@ -102,39 +125,62 @@ class Game:
 
         # Если пользователь решил зачеркнуть
         if action == "y":
+            found = False
             for row in self.player_card.rows:
-                for cell in row:
-                    # Зачеркивание числа, если оно присутствует на карточке
-                    if number == cell:
-                        self.player_card.mark_number(number)
-                print("Цифра зачеркнута!\n")
+                for i, cell in enumerate(row):
+                    if cell.strip().isdigit() and int(cell) == number:
+                        # Если число присутствует на карточке и не зачеркнуто, зачеркиваем его
+                        if cell != "X":
+                            self.player_card.mark_number(int(cell))
+                            row[i] = "X"  # Зачеркиваем числовое значение на карточке
+                            found = True
+                            break
 
-            # Проверка наличия победителя после зачеркивания
-            if self.player_card.check_for_winner():
-                print("Вы победили!")
-                return True
+            if found:
+                print("Цифра зачеркнута!\n")
+                # Проверка наличия победителя после зачеркивания
+                if self.player_card.check_for_winner():
+                    print("Вы победили!")
+                    return True
             else:
-                return False
+                # Если числа нет на карточке, пользователь проиграл
+                print("Такой цифры на вашей карточке нет или она уже зачеркнута. Вы проиграли!\n")
+                return True
 
         # Если пользователь решил продолжить
         else:
-            if number in [cell for row in self.player_card.rows for cell in row]:
-                # Если число присутствует на карточке, пользователь проигрывает
-                print("Вы не зачеркнули цифру, которая есть на вашей карточке. Вы проиграли!\n")
-                return True
+            for row in self.player_card.rows:
+                for cell in row:
+                    if cell.strip().isdigit() and int(cell) == number and cell != "X":
+                        # Если число присутствует на карточке, пользователь проигрывает
+                        print("Вы не зачеркнули цифру, которая есть на вашей карточке. Вы проиграли!\n")
+                        return True
 
         # Вывод карточки компьютера
         print("\nКарточка компьютера:")
         self.computer_card.display()
 
-        # Зачеркивание числа на карточке компьютера
-        if number in [cell for row in self.computer_card.rows for cell in row]:
-            self.computer_card.mark_number(number)
+        # Проверка, что число присутствует на карточке компьютера и не зачеркнуто
+        found = False
+        for row in self.computer_card.rows:
+            for i, cell in enumerate(row):
+                if cell.strip().isdigit() and int(cell) == number:
+                    # Если число присутствует на карточке и не зачеркнуто, зачеркиваем его
+                    if cell != "X":
+                        self.computer_card.mark_number(int(cell))
+                        row[i] = "X"  # Зачеркиваем числовое значение на карточке
+                        found = True
+                        break
+
+        if found:
             print("Цифра зачеркнута!\n")
         else:
             print("Цифры нет на карточке компьютера.\n")
 
-        return False
+        # Проверка наличия победителя после зачеркивания
+        if self.computer_card.check_for_winner():
+            print("Компьютер победил!")
+            return True
 
     # Метод для выполнения всей игры
     def play_game(self):
@@ -143,5 +189,3 @@ class Game:
             if self.play_turn():
                 print("Игра завершена.")
                 break
-
-
