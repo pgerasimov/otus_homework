@@ -1,11 +1,12 @@
 from flask import Flask, render_template
-from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
     LoginManager,
     login_user,
     logout_user,
     current_user)
 
+from webapp.forms import LoginForm
 from webapp.model import db, Users
 import logging
 
@@ -13,19 +14,12 @@ import logging
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
-    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
     db.init_app(app)
-    migrate = Migrate(app, db)
-
     logging.basicConfig(filename='app.log',
                         filemode='w',
-                        level=logging.ERROR,
+                        level=logging.DEBUG,
                         datefmt='%m/%d/%Y %I:%M:%S %p',
                         format='%(name)s - %(levelname)s - %(message)s')
-
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-    login_manager.login_view = 'registration'
 
     @app.after_request
     def add_header(response):
@@ -35,6 +29,12 @@ def create_app():
         response.headers['Cache-Control'] = 'public, max-age=0'
         return response
 
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return f'Internal Server Error: {str(e)}', 500
     @app.route("/")
     def index():
-        return render_template('base.html', active='index')
+        form = LoginForm()
+        return render_template('base.html', form=form, active='index')
+
+    return app
