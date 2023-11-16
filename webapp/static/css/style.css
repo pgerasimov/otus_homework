@@ -34,6 +34,11 @@ p {
     box-shadow: -2px -1px 88px 0px rgba(0, 0, 0, 0.17);
 }
 
+.row {
+    background: #ffffff;
+
+}
+
 .sub-title {
     display: flex;
     padding: 30px;
@@ -129,4 +134,88 @@ div.blog-post {
     line-height: 25px;
     padding: 0 15px;
     letter-spacing: 1px;
+}
+
+
+.contact-us-detail {
+    margin-top: 10px;
+}
+
+.contact-us-detail i {
+    font-size: 30px;
+    line-height: 50px;
+}
+
+.contact-us-detail a {
+    color: #333333;
+}
+
+.contact-us-detail a:hover {
+    color: #333333;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-control {
+	border: 2px solid transparent;
+	height: 50px;
+	border-radius: 2px;
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    transition:all 150ms ease-in-out 0s;
+}
+.form-control:focus {
+	border-color: #171717;
+	box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: #1abc9c;
+    border-width: 2px;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  margin-top: 6px;
+  padding: 20px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
