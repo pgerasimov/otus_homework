@@ -219,3 +219,10 @@ input[type=submit]:hover {
   display: table;
   clear: both;
 }
+
+
+ .post-image p {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
