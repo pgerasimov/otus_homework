@@ -134,9 +134,6 @@ def create_app():
                 logging.error('Такой пользователь уже есть')
                 return redirect(url_for('registration'))
 
-            print(username)
-            print(password)
-
             new_user = Users(email=username)
             new_user.set_password(password)
             db.session.add(new_user)
