@@ -58,3 +58,4 @@ with app.app_context():
                     db.session.commit()
 
 
+    populate_users_and_posts(5, 5)

@@ -2,29 +2,22 @@
 
 {% block content %}
 
-<!--	<div id="main">-->
-<!--		<div class="page-body">-->
-<!--			<div class="content-page">-->
-<!--				<div class="blog-post">-->
-<!--					<div class="post-title">-->
-<!--						<h1>First Post title for example</h1>-->
-<!--					</div>-->
-<!--					<div class="post-info"> <span>November 15, 2023 / Tags: <a href="#" target="_blank">Post Tag</a> </span> </div>-->
-<!--					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae ut ratione similique temporibus tempora dicta soluta? Qui hic, voluptatem nemo quo corporis dignissimos voluptatum debitis cumque fugiat mollitia quasi quod. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae ut ratione similique.</p> <a href="post.html"><span>Подробнее</span></a> </div>-->
-<!--			</div>-->
-<!--			<div class="page-body footer">-->
 {% for post in posts %}
-        <div>
-            <h2>{{ Post.post_title }}</h2>
-            <p>{{ post.post_summary }}</p>
-            <p>{{ post.post_content }}</p>
-            <p>Rating: {{ post.post_rating }}</p>
-            <p>Author: {{ post.author.username }}</p>  {# Замените "username" на поле, которое хранит имя пользователя в вашей модели User #}
-            <p>Publication Date: {{ post.publication_date }}</p>
-            <!-- Другие поля по необходимости -->
-        </div>
-        <hr>
-    {% endfor %}
+
+	<div id="main">
+		<div class="page-body">
+			<div class="content-page">
+				<div class="blog-post">
+					<div class="post-title">
+						<h1>{{ post.post_title }}</h1>
+					</div>
+					<div class="post-info"> <span>Publication Date: {{ post.publication_date }} / Rating: {{ post.post_rating }} </span> </div>
+					<p>{{ post.post_summary }}</p> <a href="post.html"><span>Подробнее</span></a> </div>
+			</div>
+		</div>
+	</div>
+{% endfor %}
+
 
 
 {% endblock %}
