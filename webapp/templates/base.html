@@ -6,12 +6,30 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 	<title>{{ page_title }}</title>
+	 {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
 </head>
 
 <body>
 	<div class="page-body header">
 		<header>
 			<h1>Pavel's Personal Blog</h1>
+
+{% if not current_user.is_authenticated %}
+    <a href="{{ url_for('login') }}">Авторизация</a> |
+    <a href="{{ url_for('registration') }}">Регистрация</a>
+{% else %}
+    <a href="{{ url_for('logout') }}">Выход</a>
+{% endif %}
+
+
 		</header>
 	</div>
 
@@ -22,9 +40,8 @@
 
 				<footer>
 					<ul class="menu-link">
-						<li><a href="main.html">Home</a></li>
-						<li><a href="/About">About</a></li>
-						<li><a href="contact.html">Contact</a></li>
+						<li><a href="/">Home</a></li>
+						<li><a href="/contact">Contact</a></li>
 					</ul>
 				</footer>
 			</div>

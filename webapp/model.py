@@ -26,6 +26,15 @@ class Users(db.Model):
     def __repr__(self):
         return f'<User {self.email}>'
 
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return str(self.id)
+
+    def is_authenticated(self):
+        return True
+
 
 class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -12,7 +12,7 @@
 						<h1>{{ post.post_title }}</h1>
 					</div>
 					<div class="post-info"> <span>Publication Date: {{ post.publication_date }} / Rating: {{ post.post_rating }} </span> </div>
-					<p>{{ post.post_summary }}</p> <a href="post.html"><span>Подробнее</span></a> </div>
+					<p>{{ post.post_summary }}</p> <a href="{{ url_for('post', id = post.id) }}"><span>Подробнее</span></a> </div>
 			</div>
 		</div>
 	</div>

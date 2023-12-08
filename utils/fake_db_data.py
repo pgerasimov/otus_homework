@@ -29,7 +29,7 @@ with app.app_context():
     def generate_fake_post():
         title = fake.sentence()
         summary = fake.paragraph()
-        content = fake.text()
+        content = "\n".join(fake.paragraph() for _ in range(3))
         rating = random.randint(1, 5)
         author_id = random.randint(1, 5)
 

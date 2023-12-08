@@ -226,3 +226,10 @@ input[type=submit]:hover {
     font-size: 14px;
     margin-top: 10px;
 }
+
+.flash-messages {
+list-style-type:  none;
+background: red;
+font-size: 20px;
+padding: 5px;
+}
