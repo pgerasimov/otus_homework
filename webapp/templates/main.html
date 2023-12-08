@@ -1,40 +1,30 @@
-<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="../static/css/style.css">
-	<title>{{ page_title }}</title>
-</head>
+{% block content %}
 
-<body>
-	<div class="page-body header">
-		<header>
-			<h1>Pavel's Personal Blog</h1>
-		</header>
-	</div>
-	<div id="main">
-		<div class="page-body">
-			<div class="content-page">
-				<div class="blog-post">
-					<div class="post-title">
-						<h1>First Post title for example</h1>
-					</div>
-					<div class="post-info"> <span>November 15, 2023 / Tags: <a href="#" target="_blank">Post Tag</a> </span> </div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae ut ratione similique temporibus tempora dicta soluta? Qui hic, voluptatem nemo quo corporis dignissimos voluptatum debitis cumque fugiat mollitia quasi quod. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae ut ratione similique.</p> <a href="post.html"><span>Подробнее</span></a> </div>
-			</div>
-			<div class="page-body footer">
-				<footer>
-					<ul class="menu-link">
-						<li><a href="main.html">Home</a></li>
-						<li><a href="/About">About</a></li>
-						<li><a href="contact.html">Contact</a></li>
-					</ul>
-				</footer>
-			</div>
-		</div>
-	</div>
-</body>
+<!--	<div id="main">-->
+<!--		<div class="page-body">-->
+<!--			<div class="content-page">-->
+<!--				<div class="blog-post">-->
+<!--					<div class="post-title">-->
+<!--						<h1>First Post title for example</h1>-->
+<!--					</div>-->
+<!--					<div class="post-info"> <span>November 15, 2023 / Tags: <a href="#" target="_blank">Post Tag</a> </span> </div>-->
+<!--					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae ut ratione similique temporibus tempora dicta soluta? Qui hic, voluptatem nemo quo corporis dignissimos voluptatum debitis cumque fugiat mollitia quasi quod. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae ut ratione similique.</p> <a href="post.html"><span>Подробнее</span></a> </div>-->
+<!--			</div>-->
+<!--			<div class="page-body footer">-->
+{% for post in posts %}
+        <div>
+            <h2>{{ Post.post_title }}</h2>
+            <p>{{ post.post_summary }}</p>
+            <p>{{ post.post_content }}</p>
+            <p>Rating: {{ post.post_rating }}</p>
+            <p>Author: {{ post.author.username }}</p>  {# Замените "username" на поле, которое хранит имя пользователя в вашей модели User #}
+            <p>Publication Date: {{ post.publication_date }}</p>
+            <!-- Другие поля по необходимости -->
+        </div>
+        <hr>
+    {% endfor %}
 
-</html>
+
+{% endblock %}

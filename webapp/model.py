@@ -1,10 +1,8 @@
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 
-from webapp.config import basedir
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')

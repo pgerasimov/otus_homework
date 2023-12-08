@@ -7,7 +7,7 @@ from flask_login import (
     current_user)
 
 from webapp.forms import LoginForm
-from webapp.model import db, Users
+from webapp.model import db, Users, Posts
 import logging
 
 
@@ -32,9 +32,11 @@ def create_app():
     @app.errorhandler(500)
     def internal_server_error(e):
         return f'Internal Server Error: {str(e)}', 500
+
     @app.route("/")
     def index():
-        form = LoginForm()
-        return render_template('base.html', form=form, active='index')
+        all_posts = Posts.query.all()
+        title = "Главная страница"
+        return render_template('main.html', page_title=title, posts=all_posts, active='index')
 
     return app
