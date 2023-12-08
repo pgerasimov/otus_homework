@@ -12,6 +12,8 @@ Run <code>pip install -r requirements.txt</code> to install dependencies.
 <b>Run local</b>
 - Clone this repo.
 - At the repo's root, enter in the Terminal: <code>python3 -m pip install</code> 
+- Create DataBase running <code>create_db.py</code>
+- Make Fake data if need with <code>fake_db_data.py</code>
 - Make <code>Flask run</code>
 
 
